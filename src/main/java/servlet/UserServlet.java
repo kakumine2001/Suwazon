@@ -81,7 +81,7 @@ public class UserServlet extends HttpServlet {
 	//ログアウト処理
 	private void logout(HttpServletRequest request, HttpServletResponse response, HttpSession session) 
 			throws ServletException, IOException{
-		session.removeAttribute("user");
+		session.invalidate();
 		request.setAttribute("message","ログアウトしました");
 		request.getRequestDispatcher("/login.jsp").forward(request, response);
 	}

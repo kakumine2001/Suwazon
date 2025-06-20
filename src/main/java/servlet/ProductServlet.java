@@ -18,7 +18,7 @@ public class ProductServlet extends HttpServlet {
 //	private static final CategoryService categoryService = CategoryService.getInstance();
 	
 	@Override//商品を全件取得してカテゴリーサービスクラスと一緒に返す
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		List<Product> products = productService.getAllProducts();
 		request.setAttribute("products", products);
@@ -27,7 +27,7 @@ public class ProductServlet extends HttpServlet {
 	}
 
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doGet(request, response); // POSTもGETの処理で代用
 	}

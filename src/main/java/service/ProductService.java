@@ -53,4 +53,6 @@ public class ProductService {
     public int updateStock(int id, int stock) {
         return dao.exeUpdateStock(id, stock);
     }
+    
+    
 }

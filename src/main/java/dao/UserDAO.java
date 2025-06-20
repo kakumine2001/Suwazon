@@ -10,7 +10,7 @@ import java.util.List;
 import entity.User;
 
 public class UserDAO extends CommonDAO {
-	public static final UserDAO instance = new UserDAO();
+	private static final UserDAO instance = new UserDAO();
 
 	private UserDAO() {
 	}

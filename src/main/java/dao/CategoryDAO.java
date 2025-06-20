@@ -10,7 +10,7 @@ import java.util.List;
 import entity.Category;
 
 public class CategoryDAO extends CommonDAO {
-	public static final CategoryDAO instance = new CategoryDAO();
+	private static final CategoryDAO instance = new CategoryDAO();
 
 	private CategoryDAO() {}
 

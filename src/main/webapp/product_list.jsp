@@ -3,7 +3,7 @@
 <%@page import="service.CategoryService"%>
 <%
 List<Product> products = (List<Product>) request.getAttribute("products");
-CategoryService categoryService = (CategoryService)request.getAttribute("categoryService");
+CategoryService categoryService = (CategoryService) request.getAttribute("categoryService");
 %>
 <!DOCTYPE html>
 <html>
@@ -126,24 +126,34 @@ h1 {
 				type="submit" value="検索">
 		</div>
 		<div class="header-buttons">
-			<!-- 書き換える -->
+			<!-- 購入履歴へ -->
+			<form action="/Suwazon_zuichan/purchaseHistory" method="get">
+				<input type="submit" value="購入履歴">
+			</form>
+			<!-- カート画面へ -->
 			<form action="/Suwazon_zuichan/cart" method="get">
 				<input type="submit" value="カートを見る">
 			</form>
-			<!-- 書き換える -->
+			<!-- ログアウト -->
 			<form action="/Suwazon_zuichan/login" method="post">
-			<input type="hidden" name="action" value="logout">
-				<input type="submit" value="ログアウト">
+				<input type="hidden" name="action" value="logout"> <input
+					type="submit" value="ログアウト">
 			</form>
 		</div>
 	</header>
 
 	<div class="product-list">
 		<h1>商品一覧</h1>
-		<%String message = (String)request.getAttribute("message"); %>
-		<%if(message != null){ %>
-		<p><%=message %></p>
-		<%} %>
+		<%
+		String message = (String) request.getAttribute("message");
+		%>
+		<%
+		if (message != null) {
+		%>
+		<p><%=message%></p>
+		<%
+		}
+		%>
 		<div class="grid">
 			<%
 			for (Product p : products) {
@@ -159,12 +169,12 @@ h1 {
 				<%
 				if (p.getStock() > 0) {
 				%>
-				
+
 				<form action="/Suwazon_zuichan/cart" method="post">
 					<!-- カート追加機能 -->
 					<input type="hidden" name="product_id"
-						value="<%=p.getProduct_id()%>">
-					<input type="hidden" name="action" value="addProduct">
+						value="<%=p.getProduct_id()%>"> <input type="hidden"
+						name="action" value="addProduct">
 					<div class="btn-cart">
 						<input type="submit" value="カートへ">
 					</div>

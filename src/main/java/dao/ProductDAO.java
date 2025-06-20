@@ -10,7 +10,7 @@ import java.util.List;
 import entity.Product;
 
 public class ProductDAO extends CommonDAO {
-    public static final ProductDAO instance = new ProductDAO();
+    private static final ProductDAO instance = new ProductDAO();
 
     private ProductDAO() {}
 
@@ -166,4 +166,8 @@ public class ProductDAO extends CommonDAO {
         }
         return result;
     }
+
+   
+
+
 }

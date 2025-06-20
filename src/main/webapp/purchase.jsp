@@ -100,7 +100,8 @@
     <div class="total-area">
     <!-- 合計金額 -->
         <div>合計 <%= total %>円</div>
-        <form action="PurchaseCompleteServlet" method="post">
+        <form action="/Suwazon_zuichan/cart" method="post">
+        	<input type="hidden" name="action" value="purchaseComplete">
             <input type="submit" value="購入確定" class="purchase-button">
         </form>
     </div>

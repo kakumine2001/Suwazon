@@ -71,13 +71,14 @@
 	Map<Product, Integer> cartProducts = (Map<Product, Integer>) session.getAttribute("cartProducts");
 
 	// リクエスト属性から削除メッセージ取得
-	String deletedProductName = (String) request.getAttribute("deletedProductName");
+	String deleteMessage = (String) request.getAttribute("deleteMessage");
 
 	//リクエスト属性からカテゴリーサービスクラス取得
-	CategoryService categoryService = (CategoryService) request.getAttribute("categoryService");
-	if (deletedProductName != null) {
+	CategoryService categoryService = CategoryService.getInstance();
+	
+	if (deleteMessage != null) {
 	%>
-	<span class="message">商品を削除しました：<%=deletedProductName%></span>
+	<span class="message">商品を削除しました：<%=deleteMessage%></span>
 	<%
 	}
 
@@ -112,11 +113,11 @@ for (Map.Entry<Product, Integer> entry : cartProducts.entrySet()) {
 					value="詳細" />
 			</form>
 
-			<form action="DeleteFromCartServlet" method="post">
+			<form action="/Suwazon_zuichan/cart" method="post">
 				<!-- 商品削除 -->
-				<input type="hidden" name="product_id"
-					value="<%=product.getProduct_id()%>" /> <input type="submit"
-					value="削除" />
+				<input type="hidden" name="product_id"value="<%=product.getProduct_id()%>" />
+				<input type="hidden" name="action" value="delete">
+				<input type="submit"value="削除" />
 			</form>
 
 			<span class="quantity">×<%=quantity%></span>

@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class PurchaseHistory {
 	private String user_id;
 	private int pruduct_id; // CREATE文と一致（タイポも含めて）
-	private LocalDate date;    // java.sql.Dateでも可、簡易的にStringで保持
+	private LocalDate date;    
 	private int number;
 }

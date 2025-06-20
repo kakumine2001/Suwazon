@@ -18,4 +18,16 @@ public class PurchaseHistoryService {
     public List<PurchaseHistory> getAllHistories() {
         return dao.exeSelectAll();
     }
+    
+    //指定したユーザーの履歴を取得
+    public List<PurchaseHistory> getAllHistoriesByUserId(String user_id) {
+        return dao.exeSelectByUserid(user_id);
+    }
+    
+    //購入履歴を登録
+    public int purchaseComplete(int product_id,String user_id,int quantity) {
+    	return dao.exeInsert(product_id, user_id, quantity);
+    }
+    
+
 }

@@ -6,20 +6,21 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import entity.Product;
+import entity.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import service.CategoryService;
 import service.ProductService;
+import service.PurchaseHistoryService;
 
 @WebServlet("/cart")
 public class CartServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private static final ProductService productService = ProductService.getInstance();
-
+	private static final PurchaseHistoryService purchaseHistoryService = PurchaseHistoryService.getInstance();
 	private static final Map<Product, Integer> cartProducts = new HashMap<>();//カートの商品と数を保持
 
 	@Override
@@ -37,7 +38,6 @@ public class CartServlet extends HttpServlet {
 		}
 
 		System.out.println("カートセッション取得成功");
-		request.setAttribute("categoryService", CategoryService.getInstance());//カテゴリークラスを送信
 		request.getRequestDispatcher("/cart_list.jsp").forward(request, response);
 	}
 
@@ -53,6 +53,12 @@ public class CartServlet extends HttpServlet {
 				break;
 			case "purchase":
 				purchase(request, response, session);
+				break;
+			case "purchaseComplete":
+				purchaseComplete(request, response, session);
+				break;
+			case "delete":
+				deleteCartProduct(request, response, session);
 				break;
 			default:
 				break;
@@ -90,5 +96,47 @@ public class CartServlet extends HttpServlet {
 		request.setAttribute("total", sum);
 		request.getRequestDispatcher("/purchase.jsp").forward(request, response);
 	}
+	
+	private void purchaseComplete(HttpServletRequest request, HttpServletResponse response, HttpSession session) 
+			throws IOException, ServletException{
+	    String user_id = ((User)session.getAttribute("user")).getUser_id();
+	    int result = 0;
+	    
+	    for (Map.Entry<Product, Integer> entry : cartProducts.entrySet()) {
+	        int r = purchaseHistoryService.purchaseComplete(
+	            entry.getKey().getProduct_id(),
+	            user_id,
+	            entry.getValue()
+	        );
+	        result += r;
+	    }
+	    if(result == cartProducts.size()) {
+	    	request.getRequestDispatcher("/purchaseComplete.jsp").forward(request, response);
+	    }
+	}
 
+	private void deleteCartProduct(HttpServletRequest request, HttpServletResponse response, HttpSession session) 
+			throws IOException, ServletException{
+		
+		//削除したい商品のid
+		int product_id = Integer.parseInt(request.getParameter("product_id"));
+		
+		//Mapから該当商品を削除、
+		for(Map.Entry<Product,Integer> map : cartProducts.entrySet()) {
+			Product p = map.getKey();
+			int quantity = map.getValue();
+			
+			if(p.getProduct_id() == product_id) {
+				if(quantity == 1) {
+					cartProducts.remove(p);
+				}else {
+					cartProducts.put(p,quantity - 1);
+				}
+				System.out.println("削除成功");
+			}
+		}
+		request.setAttribute("deleteMessage", "商品を削除しました" + productService.getProductById(product_id).getProduct_name());
+		doGet(request, response);
+	}
+	
 }
