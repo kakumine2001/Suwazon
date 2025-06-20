@@ -9,28 +9,35 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import service.CategoryService;
 import service.ProductService;
 
 @WebServlet("/product_list")
 public class ProductServlet extends HttpServlet {
 	private static final ProductService productService = ProductService.getInstance();
-//	private static final CategoryService categoryService = CategoryService.getInstance();
-	
-	@Override//商品を全件取得してカテゴリーサービスクラスと一緒に返す
+
+	@Override //商品を全件取得してカテゴリーサービスクラスと一緒に返す
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		List<Product> products = productService.getAllProducts();
 		request.setAttribute("products", products);
-		request.setAttribute("categoryService", CategoryService.getInstance());
 		request.getRequestDispatcher("/product_list.jsp").forward(request, response);
 	}
 
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doGet(request, response); // POSTもGETの処理で代用
+		
+		String action = request.getParameter("action");
+		if (!action.equals("search")) {
+			doGet(request, response); //検索処理以外は商品一覧画面(全件表示)へ遷移
+		} else {
+			//検索による商品一覧表示
+			String keyword = request.getParameter("keyword");
+			int categoryId = Integer.parseInt(request.getParameter("categoryId"));
+			List<Product> products = productService.searchProductsByKeywordAndCategory(keyword, categoryId);
+			request.setAttribute("products", products);
+			request.getRequestDispatcher("/product_list.jsp").forward(request, response);
+		}
 	}
-	
-	
+
 }

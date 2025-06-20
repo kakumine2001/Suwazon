@@ -77,17 +77,14 @@ public class CartServlet extends HttpServlet {
 		int product_id = Integer.parseInt(request.getParameter("product_id"));
 		Product product = productService.getProductById(product_id);
 
-		//		cartProducts.add(productService.getProductById(product_id));
-		//		quantities.put(product_id,quantities.getOrDefault(product_id, 0) + 1);
-
 		//Mapに商品とその数を保存する
 		cartProducts.put(product, cartProducts.getOrDefault(product, 0) + 1);
 
-		request.setAttribute("message", "カートへ追加しました:" + product.getProduct_name());
+		request.setAttribute("message", "カートへ追加しました:" + product.getProductName());
 		request.getRequestDispatcher("/product_list").forward(request, response);
 	}
 
-	//カートの商品を購入する
+	//カートの商品を購入
 	private void purchase(HttpServletRequest request, HttpServletResponse response,HttpSession session)
 			throws IOException, ServletException  {
 		//Streamでカート内商品の合計金額を計算
@@ -97,24 +94,26 @@ public class CartServlet extends HttpServlet {
 		request.getRequestDispatcher("/purchase.jsp").forward(request, response);
 	}
 	
+	//購入確定
 	private void purchaseComplete(HttpServletRequest request, HttpServletResponse response, HttpSession session) 
 			throws IOException, ServletException{
-	    String user_id = ((User)session.getAttribute("user")).getUser_id();
+	    String user_id = ((User)session.getAttribute("user")).getUserId();
 	    int result = 0;
 	    
 	    for (Map.Entry<Product, Integer> entry : cartProducts.entrySet()) {
 	        int r = purchaseHistoryService.purchaseComplete(
-	            entry.getKey().getProduct_id(),
+	            entry.getKey().getProductId(),
 	            user_id,
 	            entry.getValue()
 	        );
 	        result += r;
 	    }
 	    if(result == cartProducts.size()) {
-	    	request.getRequestDispatcher("/purchaseComplete.jsp").forward(request, response);
+	    	request.getRequestDispatcher("/purchase_complete.jsp").forward(request, response);
 	    }
 	}
 
+	//カート内商品を削除
 	private void deleteCartProduct(HttpServletRequest request, HttpServletResponse response, HttpSession session) 
 			throws IOException, ServletException{
 		
@@ -126,7 +125,7 @@ public class CartServlet extends HttpServlet {
 			Product p = map.getKey();
 			int quantity = map.getValue();
 			
-			if(p.getProduct_id() == product_id) {
+			if(p.getProductId() == product_id) {
 				if(quantity == 1) {
 					cartProducts.remove(p);
 				}else {
@@ -135,7 +134,7 @@ public class CartServlet extends HttpServlet {
 				System.out.println("削除成功");
 			}
 		}
-		request.setAttribute("deleteMessage", "商品を削除しました" + productService.getProductById(product_id).getProduct_name());
+		request.setAttribute("deleteMessage", "商品を削除しました" + productService.getProductById(product_id).getProductName());
 		doGet(request, response);
 	}
 	

@@ -1,9 +1,13 @@
+<%@page import="java.util.stream.Collectors"%>
+<%@page import="java.util.stream.Collector"%>
 <%@ page contentType="text/html;charset=UTF-8" language="java"%>
-<%@ page import="java.util.*, entity.Product"%>
+<%@ page import="java.util.*, entity.Product,entity.Category"%>
 <%@page import="service.CategoryService"%>
 <%
+CategoryService categoryService = CategoryService.getInstance();
+
 List<Product> products = (List<Product>) request.getAttribute("products");
-CategoryService categoryService = (CategoryService) request.getAttribute("categoryService");
+List<Category> categories = categoryService.getAllCategories();
 %>
 <!DOCTYPE html>
 <html>
@@ -118,24 +122,34 @@ h1 {
 		<div class="logo">
 			SUWA<span>ZON</span>
 		</div>
+		
+		<!-- 商品検索 -->
 		<div class="search-bar">
-			<select name="category">
-				<option>カテゴリー</option>
-				<!-- 例: <option value="1">掃除</option> -->
-			</select> <input type="text" placeholder="キーワード検索"> <input
-				type="submit" value="検索">
+			<form action="/Suwazon_zuichan/product_list" method="POST">
+				<select name="categoryId">
+					<option>カテゴリー</option>
+					<% for(Category c : categories){%>
+					<option value="<%=c.getCategoryId() %>"><%= c.getCategoryName() %></option>
+					<%} %>
+				</select> 
+				<input type="text" name="keyword" placeholder="キーワード検索"> 
+				<input type="hidden" name="action" value="search">
+				<input type="submit" value="検索">
+			</form>
 		</div>
+		
+		<!-- 各メニュー -->
 		<div class="header-buttons">
 			<!-- 購入履歴へ -->
-			<form action="/Suwazon_zuichan/purchaseHistory" method="get">
+			<form action="/Suwazon_zuichan/purchaseHistory" method="GET">
 				<input type="submit" value="購入履歴">
 			</form>
 			<!-- カート画面へ -->
-			<form action="/Suwazon_zuichan/cart" method="get">
+			<form action="/Suwazon_zuichan/cart" method="GET">
 				<input type="submit" value="カートを見る">
 			</form>
 			<!-- ログアウト -->
-			<form action="/Suwazon_zuichan/login" method="post">
+			<form action="/Suwazon_zuichan/login" method="POST">
 				<input type="hidden" name="action" value="logout"> <input
 					type="submit" value="ログアウト">
 			</form>
@@ -160,9 +174,9 @@ h1 {
 			%>
 			<div class="card">
 				<div class="image-placeholder">商品画像</div>
-				<div class="product-name"><%=p.getProduct_name()%><br>
+				<div class="product-name"><%=p.getProductName()%><br>
 					<!-- ↓サービスクラスでカテゴリを取得し、名前を出力↓ -->
-					<span style="font-size: 12px;"><%=categoryService.getCategoryById(p.getCategory_id()).getCategory_name()%></span>
+					<span style="font-size: 12px;"><%=categoryService.getCategoryById(p.getCategoryId()).getCategoryName()%></span>
 				</div>
 				<div class="price"><%=p.getPrice()%>円
 				</div>
@@ -170,11 +184,11 @@ h1 {
 				if (p.getStock() > 0) {
 				%>
 
-				<form action="/Suwazon_zuichan/cart" method="post">
+				<form action="/Suwazon_zuichan/cart" method="POST">
 					<!-- カート追加機能 -->
 					<input type="hidden" name="product_id"
-						value="<%=p.getProduct_id()%>"> <input type="hidden"
-						name="action" value="addProduct">
+						value="<%=p.getProductId()%>"> 
+						<input type="hidden" name="action" value="addProduct">
 					<div class="btn-cart">
 						<input type="submit" value="カートへ">
 					</div>
@@ -188,7 +202,8 @@ h1 {
 				%>
 				<!-- 商品詳細 -->
 				<a class="detail-link"
-					href="productDetail.jsp?id=<%=p.getProduct_id()%>">商品詳細へ</a>
+					href="product_detail.jsp?product_id=<%=p.getProductId()%>
+					&previous_page=product_list">商品詳細へ</a>
 			</div>
 			<%
 			}

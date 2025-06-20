@@ -29,7 +29,7 @@ public class UserService {
 		//同じユーザーidを持つユーザーがいたら登録させない
 		List<User> users = getAllUsers();
 		boolean isExitingUserId =  users.stream()
-				   .anyMatch(user -> user.getUser_id().equals(u.getUser_id()));
+				   .anyMatch(user -> user.getUserId().equals(u.getUserId()));
 		if(isExitingUserId) {
 			return 0;
 		}

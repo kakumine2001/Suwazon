@@ -60,19 +60,19 @@ body {
 		List<PurchaseHistory> list = entry.getValue();
 	%>
 	<div class="history-box">
-		<div>
+		<div>  <!-- 日付 -->
 			<strong><%=date%></strong>
 		</div>
 		<hr>
 		<%
-		for (PurchaseHistory ph : list) {
-			Product p = productService.getProductById(ph.getPruduct_id()); // 「pruduct_id」に注意
-			Category c = categoryService.getCategoryById(p.getCategory_id());
+		for (PurchaseHistory ph : list) { //日付ごとの購入履歴を表示
+			Product p = productService.getProductById(ph.getPruductId()); 
+			Category c = categoryService.getCategoryById(p.getCategoryId());
 		%>
 		<div class="item-row">
-			<div><%=p.getProduct_name()%>
+			<div><%=p.getProductName()%>
 				×<%=ph.getNumber()%></div>
-			<div><%=c.getCategory_name()%></div>
+			<div><%=c.getCategoryName()%></div>
 			<div>
 			<!-- 詳細画面、未実装 -->
 				<form action="" method="GET">

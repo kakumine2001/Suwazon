@@ -14,7 +14,8 @@ import service.UserService;
 @WebServlet("/login")
 public class UserServlet extends HttpServlet {
 	private static final UserService userService = UserService.getInstance();
-
+	
+	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			request.getRequestDispatcher("/login.jsp").forward(request, response);
@@ -22,7 +23,8 @@ public class UserServlet extends HttpServlet {
 			System.out.println(e.getMessage() + "\n" + e);
 		}
 	}
-
+	
+	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response) {
 		HttpSession session = request.getSession();
 		try {

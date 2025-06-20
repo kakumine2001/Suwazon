@@ -22,13 +22,13 @@ public class CategoryDAO extends CommonDAO {
 	
 	// INSERT
 	public int exeInsert(Category c) {
-		String sql = "INSERT INTO category (category_id, category_name) VALUES (?, ?);";
+		String sql = "INSERT INTO categories (category_id, category_name) VALUES (?, ?);";
 		int result = 0;
 
 		try (Connection conn = createConnection();
 			 PreparedStatement stmt = conn.prepareStatement(sql)) {
-			stmt.setInt(1, c.getCategory_id());
-			stmt.setString(2, c.getCategory_name());
+			stmt.setInt(1, c.getCategoryId());
+			stmt.setString(2, c.getCategoryName());
 			result = stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -39,7 +39,7 @@ public class CategoryDAO extends CommonDAO {
 
 	// SELECT ALL
 	public List<Category> exeSelectAll() {
-		String sql = "SELECT * FROM category ORDER BY category_id;";
+		String sql = "SELECT * FROM categories ORDER BY category_id;";
 		List<Category> categoryList = new ArrayList<>();
 
 		try (Connection conn = createConnection();
@@ -47,8 +47,8 @@ public class CategoryDAO extends CommonDAO {
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				Category c = new Category();
-				c.setCategory_id(rs.getInt("category_id"));
-				c.setCategory_name(rs.getString("category_name"));
+				c.setCategoryId(rs.getInt("category_id"));
+				c.setCategoryName(rs.getString("category_name"));
 				categoryList.add(c);
 			}
 		} catch (SQLException e) {
@@ -60,7 +60,7 @@ public class CategoryDAO extends CommonDAO {
 
 	// SELECT by ID
 	public Category exeSelectById(int id) {
-		String sql = "SELECT * FROM category WHERE category_id = ?;";
+		String sql = "SELECT * FROM categories WHERE category_id = ?;";
 		Category c = null;
 
 		try (Connection conn = createConnection();
@@ -69,8 +69,8 @@ public class CategoryDAO extends CommonDAO {
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next()) {
 				c = new Category();
-				c.setCategory_id(rs.getInt("category_id"));
-				c.setCategory_name(rs.getString("category_name"));
+				c.setCategoryId(rs.getInt("category_id"));
+				c.setCategoryName(rs.getString("category_name"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -81,7 +81,7 @@ public class CategoryDAO extends CommonDAO {
 
 	// UPDATE category_nameのみ
 	public int exeUpdateName(int category_id, String newName) {
-		String sql = "UPDATE category SET category_name = ? WHERE category_id = ?;";
+		String sql = "UPDATE categories SET category_name = ? WHERE category_id = ?;";
 		int result = 0;
 
 		try (Connection conn = createConnection();
@@ -98,7 +98,7 @@ public class CategoryDAO extends CommonDAO {
 
 	// DELETE
 	public int exeDelete(int category_id) {
-		String sql = "DELETE FROM category WHERE category_id = ?;";
+		String sql = "DELETE FROM categories WHERE category_id = ?;";
 		int result = 0;
 
 		try (Connection conn = createConnection();

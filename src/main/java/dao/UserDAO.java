@@ -25,12 +25,12 @@ public class UserDAO extends CommonDAO {
 		int result = 0;
 		try (Connection conn = createConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql)) {
-			stmt.setString(1, u.getUser_id());
-			stmt.setString(2, u.getUser_name());
+			stmt.setString(1, u.getUserId());
+			stmt.setString(2, u.getUserName());
 			stmt.setInt(3, u.getAge());
 			stmt.setString(4,u.getGender());
 			stmt.setString(5, u.getPassword());
-			stmt.setBoolean(6, u.is_admin());
+			stmt.setBoolean(6, u.isAdmin());
 			System.out.println(u);
 			result = stmt.executeUpdate();
 		} catch (SQLException e) {
@@ -50,12 +50,12 @@ public class UserDAO extends CommonDAO {
 			ResultSet rs = stmt.executeQuery();
 			if (rs.next()) {
 				u = new User();
-				u.setUser_id(rs.getString(1));
-				u.setUser_name(rs.getString(2));
+				u.setUserId(rs.getString(1));
+				u.setUserName(rs.getString(2));
 				u.setAge(rs.getInt(3));
 				u.setGender(rs.getString(4));
 				u.setPassword(rs.getString(5));
-				u.set_admin(rs.getBoolean(6));
+				u.setAdmin(rs.getBoolean(6));
 			}
 		} catch (SQLException e) {
 			System.out.println(e.getMessage() + "\n" + e);
@@ -74,12 +74,12 @@ public class UserDAO extends CommonDAO {
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				User u = new User();
-				u.setUser_id(rs.getString(1));
-				u.setUser_name(rs.getString(2));
+				u.setUserId(rs.getString(1));
+				u.setUserName(rs.getString(2));
 				u.setAge(rs.getInt(3));
 				u.setGender(rs.getString(4));
 				u.setPassword(rs.getString(5));
-				u.set_admin(rs.getBoolean(6));
+				u.setAdmin(rs.getBoolean(6));
 				users.add(u);
 			}
 		} catch (SQLException ex) {
@@ -111,12 +111,12 @@ public class UserDAO extends CommonDAO {
 		int result = 0;
 		try (Connection conn = createConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql)) {
-			stmt.setString(1, u.getUser_name());
+			stmt.setString(1, u.getUserName());
 			stmt.setInt(2, u.getAge());
 			stmt.setString(3,u.getGender());
 			stmt.setString(4, u.getPassword());
-			stmt.setBoolean(5, u.is_admin());
-			stmt.setString(6, u.getUser_id());
+			stmt.setBoolean(5, u.isAdmin());
+			stmt.setString(6, u.getUserId());
 			result = stmt.executeUpdate();
 		} catch (SQLException ex) {
 			ex.printStackTrace();

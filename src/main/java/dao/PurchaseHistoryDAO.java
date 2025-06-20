@@ -24,7 +24,7 @@ public class PurchaseHistoryDAO extends CommonDAO {
 
 	// 全件取得
 	public List<PurchaseHistory> exeSelectAll() {
-		String sql = "SELECT * FROM purchase_history ORDER BY user_id, pruduct_id;";
+		String sql = "SELECT * FROM purchase_histories ORDER BY user_id, pruduct_id;";
 		List<PurchaseHistory> historyList = new ArrayList<>();
 
 		try (Connection conn = createConnection();
@@ -33,8 +33,8 @@ public class PurchaseHistoryDAO extends CommonDAO {
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				PurchaseHistory history = new PurchaseHistory();
-				history.setUser_id(rs.getString(1));
-				history.setPruduct_id(rs.getInt(2));
+				history.setUserId(rs.getString(1));
+				history.setPruductId(rs.getInt(2));
 				history.setDate(rs.getDate(3).toLocalDate());
 				history.setNumber(rs.getInt(4));
 				historyList.add(history);
@@ -49,7 +49,7 @@ public class PurchaseHistoryDAO extends CommonDAO {
 
 	// 全件取得
 	public List<PurchaseHistory> exeSelectByUserid(String user_id) {
-		String sql = "SELECT * FROM purchase_history "
+		String sql = "SELECT * FROM purchase_histories "
 				+ "Where user_id = ? ORDER BY user_id, pruduct_id;";
 
 		List<PurchaseHistory> historyList = new ArrayList<>();
@@ -60,8 +60,8 @@ public class PurchaseHistoryDAO extends CommonDAO {
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				PurchaseHistory history = new PurchaseHistory();
-				history.setUser_id(rs.getString(1));
-				history.setPruduct_id(rs.getInt(2));
+				history.setUserId(rs.getString(1));
+				history.setPruductId(rs.getInt(2));
 				history.setDate(rs.getDate(3).toLocalDate());
 				history.setNumber(rs.getInt(4));
 				historyList.add(history);
@@ -74,7 +74,7 @@ public class PurchaseHistoryDAO extends CommonDAO {
 	}
 
 	public int exeInsert(int product_id, String user_id, int quantity) {
-		String sql = "INSERT INTO purchase_history VALUES (?,?,?,?);";
+		String sql = "INSERT INTO purchase_histories VALUES (?,?,?,?);";
 		int result = 0;
 		try (Connection conn = createConnection();
 				PreparedStatement stmt = conn.prepareStatement(sql)) {

@@ -75,7 +75,7 @@
 
 	//リクエスト属性からカテゴリーサービスクラス取得
 	CategoryService categoryService = CategoryService.getInstance();
-	
+
 	if (deleteMessage != null) {
 	%>
 	<span class="message">商品を削除しました：<%=deleteMessage%></span>
@@ -101,23 +101,23 @@ for (Map.Entry<Product, Integer> entry : cartProducts.entrySet()) {
 <div class="product-container">
 	<div class="product-image">画像</div>
 	<div class="product-details">
-		<div class="product-name"><%=product.getProduct_name()%></div>
-		<div><%=categoryService.getCategoryById(product.getCategory_id()).getCategory_name()%></div>
+		<div class="product-name"><%=product.getProductName()%></div>
+		<div><%=categoryService.getCategoryById(product.getCategoryId()).getCategoryName()%></div>
 		<div><%=product.getPrice()%>円
 		</div>
 		<div class="action-buttons">
-			<form action="DetailServlet" method="get">
+			<form action="product_detail.jsp" method="get">
 				<!-- 商品詳細 -->
-				<input type="hidden" name="product_id"
-					value="<%=product.getProduct_id()%>" /> <input type="submit"
-					value="詳細" />
+				<input type="hidden" name="product_id" value="<%=product.getProductId()%>" /> 
+				<input type="hidden" name="previous_page" value="cart_list">
+				<input type="submit" value="詳細" />
 			</form>
 
 			<form action="/Suwazon_zuichan/cart" method="post">
 				<!-- 商品削除 -->
-				<input type="hidden" name="product_id"value="<%=product.getProduct_id()%>" />
-				<input type="hidden" name="action" value="delete">
-				<input type="submit"value="削除" />
+				<input type="hidden" name="product_id" value="<%=product.getProductId()%>" /> 
+				<input type="hidden" name="action" value="delete"> 
+				<input type="submit" value="削除" />
 			</form>
 
 			<span class="quantity">×<%=quantity%></span>

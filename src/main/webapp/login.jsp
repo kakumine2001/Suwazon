@@ -66,7 +66,7 @@
     <div class="container">
         <h1>ログイン画面</h1>
         <span><%= message != null ? message:"" %></span>
-        <form action="/Suwazon_zuichan/login" method="post">
+        <form action="/Suwazon_zuichan/login" method="POST">
             <div class="form-group">
                 <div class="form-label">ユーザーID<br></div>
                 <div class="form-input">

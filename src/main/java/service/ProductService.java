@@ -54,5 +54,10 @@ public class ProductService {
         return dao.exeUpdateStock(id, stock);
     }
     
+    //検索ワードとカテゴリーidで商品検索
+    public List<Product> searchProductsByKeywordAndCategory(String keyword,int categoryId) {
+    	return dao.exeSelectByKeywodAndCategory(keyword, categoryId);
+    }
+    
     
 }

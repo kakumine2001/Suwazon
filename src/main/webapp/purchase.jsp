@@ -88,7 +88,7 @@
          <!-- 画像表示(未実装) -->
         <!--  <img src="<%= product.getImage_directory() %>" alt="画像" width="80" height="80"> -->
             <div class="product-image"><span>画像</span></div>
-            <div class="product-name"><%= product.getProduct_name() %></div>
+            <div class="product-name"><%=product.getProductName()%></div>
             <div class="product-qty">×<%= quantity %></div>
             <div class="product-subtotal">小計 <%= subtotal %>円</div>
         </div>
