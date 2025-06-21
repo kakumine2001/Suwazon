@@ -122,22 +122,36 @@ h1 {
 		<div class="logo">
 			SUWA<span>ZON</span>
 		</div>
-		
+
 		<!-- 商品検索 -->
 		<div class="search-bar">
 			<form action="/Suwazon_zuichan/product_list" method="POST">
 				<select name="categoryId">
-					<option>カテゴリー</option>
-					<% for(Category c : categories){%>
-					<option value="<%=c.getCategoryId() %>"><%= c.getCategoryName() %></option>
-					<%} %>
-				</select> 
-				<input type="text" name="keyword" placeholder="キーワード検索"> 
-				<input type="hidden" name="action" value="search">
-				<input type="submit" value="検索">
+					<option value="0">カテゴリー</option>
+					<!-- カテゴリーなしで検索のとき、0を送信 -->
+					<%
+					for (Category c : categories) {
+					%>
+					<option value="<%=c.getCategoryId()%>"><%=c.getCategoryName()%></option>
+					<%
+					}
+					%>
+				</select> <input type="text" name="keyword" placeholder="キーワード検索"> <input
+					type="hidden" name="action" value="search"> <input
+					type="submit" value="検索">
 			</form>
+			<%
+			Object isSearched = request.getAttribute("isSearched");
+			if (isSearched != null && (boolean) isSearched) {
+			%>
+			<form action="/Suwazon_zuichan/product_list" method="GET">
+				<input type="submit" value="全商品一覧へ戻る">
+			</form>
+			<%
+			}
+			%>
 		</div>
-		
+
 		<!-- 各メニュー -->
 		<div class="header-buttons">
 			<!-- 購入履歴へ -->
@@ -170,6 +184,11 @@ h1 {
 		%>
 		<div class="grid">
 			<%
+			if (products.isEmpty()) {
+			%>
+			<h3>商品が見つかりませんでした</h3>
+			<%
+			} else {
 			for (Product p : products) {
 			%>
 			<div class="card">
@@ -183,12 +202,11 @@ h1 {
 				<%
 				if (p.getStock() > 0) {
 				%>
-
 				<form action="/Suwazon_zuichan/cart" method="POST">
 					<!-- カート追加機能 -->
 					<input type="hidden" name="product_id"
-						value="<%=p.getProductId()%>"> 
-						<input type="hidden" name="action" value="addProduct">
+						value="<%=p.getProductId()%>"> <input type="hidden"
+						name="action" value="addProduct">
 					<div class="btn-cart">
 						<input type="submit" value="カートへ">
 					</div>
@@ -206,6 +224,7 @@ h1 {
 					&previous_page=product_list">商品詳細へ</a>
 			</div>
 			<%
+			}
 			}
 			%>
 		</div>

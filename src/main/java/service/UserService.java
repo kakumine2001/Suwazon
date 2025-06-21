@@ -4,8 +4,8 @@ import java.util.List;
 
 import dao.UserDAO;
 import entity.User;
-
-public class UserService {
+//@Service
+public final class UserService {
 	private static final UserService instance = new UserService();
 
 	private UserService() {
@@ -15,7 +15,7 @@ public class UserService {
 		return instance;
 	}
 
-	private static final UserDAO dao = UserDAO.getInstance();
+	private final UserDAO dao = UserDAO.getInstance();
 
 	
 	//ログイン認証

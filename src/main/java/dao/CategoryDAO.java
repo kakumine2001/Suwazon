@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entity.Category;
-
-public class CategoryDAO extends CommonDAO {
+//@Repository
+public final class CategoryDAO extends CommonDAO {
 	private static final CategoryDAO instance = new CategoryDAO();
 
 	private CategoryDAO() {}

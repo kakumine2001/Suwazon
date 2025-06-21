@@ -4,15 +4,15 @@ import java.util.List;
 
 import dao.ProductDAO;
 import entity.Product;
-
-public class ProductService {
+//@Service
+public final class ProductService {
     private static final ProductService instance = new ProductService();
     private ProductService() {}
     public static ProductService getInstance() {
         return instance;
     }
   
-    private static final ProductDAO dao = ProductDAO.getInstance();
+    private final ProductDAO dao = ProductDAO.getInstance();
 
     // 商品を追加する
     public int addProduct(Product p) {
@@ -56,8 +56,16 @@ public class ProductService {
     
     //検索ワードとカテゴリーidで商品検索
     public List<Product> searchProductsByKeywordAndCategory(String keyword,int categoryId) {
-    	return dao.exeSelectByKeywodAndCategory(keyword, categoryId);
+    	return dao.exeSelectByKeywordAndCategory(keyword, categoryId);
     }
     
+    //検索ワードのみで商品検索
+    public List<Product> searchProductsByKeyword(String keyword) {
+    	return dao.exeSelectByKeyword(keyword);
+    }
     
+    //カテゴリーidのみで商品検索
+    public List<Product> searchProductsByCategory(int categoryId) {
+    	return dao.exeSelectByCategory(categoryId);
+    }
 }

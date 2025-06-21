@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PurchaseHistory {
 	private String userId;
-	private int pruductId; // CREATE文と一致（タイポも含めて）
+	private int pruductId; 
 	private LocalDate date;    
 	private int number;
 }

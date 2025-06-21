@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entity.Product;
-
-public class ProductDAO extends CommonDAO {
+//@Repository
+public final  class ProductDAO extends CommonDAO {
     private static final ProductDAO instance = new ProductDAO();
 
     private ProductDAO() {}
@@ -41,8 +41,8 @@ public class ProductDAO extends CommonDAO {
     
     
     
-    // SELECT by ID
-    public List<Product> exeSelectByKeywodAndCategory(String keyword,int categoryId) {
+    // SELECT by Keyword AND Category
+    public List<Product> exeSelectByKeywordAndCategory(String keyword,int categoryId) {
     	String sql = "SELECT * FROM products WHERE product_name LIKE ? AND category_id = ?";
         List<Product> products = new ArrayList<Product>();
         try (Connection conn = createConnection();
@@ -68,6 +68,57 @@ public class ProductDAO extends CommonDAO {
         return products;
     }
     
+    // SELECT by Keyword
+    public List<Product> exeSelectByKeyword(String keyword) {
+    	String sql = "SELECT * FROM products WHERE product_name LIKE ?;";
+        List<Product> products = new ArrayList<Product>();
+        try (Connection conn = createConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, "%" + keyword + "%");
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Product p = new Product(
+                    rs.getInt(1),
+                    rs.getString(2),
+                    rs.getInt(3),
+                    rs.getInt(4),
+                    rs.getString(5),
+                    rs.getString(6),
+                    rs.getInt(7)
+                );
+                products.add(p);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return products;
+    }
+    
+    // SELECT by Category
+    public List<Product> exeSelectByCategory(int categoryId) {
+    	String sql = "SELECT * FROM products WHERE category_id = ?";
+        List<Product> products = new ArrayList<Product>();
+        try (Connection conn = createConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1,categoryId);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Product p = new Product(
+                    rs.getInt(1),
+                    rs.getString(2),
+                    rs.getInt(3),
+                    rs.getInt(4),
+                    rs.getString(5),
+                    rs.getString(6),
+                    rs.getInt(7)
+                );
+                products.add(p);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return products;
+    }
     
     // SELECT by ID
     public Product exeSelect(int productId) {

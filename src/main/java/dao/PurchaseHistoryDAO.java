@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entity.PurchaseHistory;
-
-public class PurchaseHistoryDAO extends CommonDAO {
+//@Repository
+public final class PurchaseHistoryDAO extends CommonDAO {
 	private static final PurchaseHistoryDAO instance = new PurchaseHistoryDAO();
 
 	private PurchaseHistoryDAO() {

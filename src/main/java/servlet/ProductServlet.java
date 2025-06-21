@@ -34,7 +34,21 @@ public class ProductServlet extends HttpServlet {
 			//検索による商品一覧表示
 			String keyword = request.getParameter("keyword");
 			int categoryId = Integer.parseInt(request.getParameter("categoryId"));
-			List<Product> products = productService.searchProductsByKeywordAndCategory(keyword, categoryId);
+			List<Product> products;
+			boolean isSearch = true;
+			if(categoryId == 0 && keyword.equals("")) { //どちらも指定されなかった場合は全件表示
+				products = productService.getAllProducts();
+				isSearch = false;
+			}else {
+				if(categoryId == 0) {  //Keywordのみの検索
+					products = productService.searchProductsByKeyword(keyword);
+				}else if(keyword.equals("")){ //カテゴリーのみの検索
+					products = productService.searchProductsByCategory(categoryId);
+				}else { //両方とも指定した検索
+					products = productService.searchProductsByKeywordAndCategory(keyword, categoryId);
+				}
+			}
+			request.setAttribute("isSearched", isSearch); //検索が行われたflag変数
 			request.setAttribute("products", products);
 			request.getRequestDispatcher("/product_list.jsp").forward(request, response);
 		}

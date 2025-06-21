@@ -8,12 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import entity.User;
-
-public class UserDAO extends CommonDAO {
+//@Repository
+public final class UserDAO extends CommonDAO {
 	private static final UserDAO instance = new UserDAO();
 
-	private UserDAO() {
-	}
+	private UserDAO() {}
 
 	public static UserDAO getInstance() {
 		return instance;

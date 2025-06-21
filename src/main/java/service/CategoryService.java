@@ -4,15 +4,15 @@ import java.util.List;
 
 import dao.CategoryDAO;
 import entity.Category;
-
-public class CategoryService {
+//@Service
+public final class CategoryService {
     private static final CategoryService instance = new CategoryService();
     private CategoryService() {}
     public static CategoryService getInstance() {
         return instance;
     }
 
-    private static final CategoryDAO dao = CategoryDAO.getInstance();
+    private final CategoryDAO dao = CategoryDAO.getInstance();
 
     // カテゴリを追加する
     public int addCategory(Category c) {

@@ -18,7 +18,6 @@ import service.PurchaseHistoryService;
 
 @WebServlet("/cart")
 public class CartServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
 	private static final ProductService productService = ProductService.getInstance();
 	private static final PurchaseHistoryService purchaseHistoryService = PurchaseHistoryService.getInstance();
 	private static final Map<Product, Integer> cartProducts = new HashMap<>();//カートの商品と数を保持
