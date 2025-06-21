@@ -192,7 +192,10 @@ h1 {
 			for (Product p : products) {
 			%>
 			<div class="card">
-				<div class="image-placeholder">商品画像</div>
+				<!-- 画像表示 -->
+				<div class="image-placeholder">
+					<img alt="商品画像" src="images/<%=p.getImageDirectory() %>" width=200px height=100px>
+				</div>
 				<div class="product-name"><%=p.getProductName()%><br>
 					<!-- ↓サービスクラスでカテゴリを取得し、名前を出力↓ -->
 					<span style="font-size: 12px;"><%=categoryService.getCategoryById(p.getCategoryId()).getCategoryName()%></span>
