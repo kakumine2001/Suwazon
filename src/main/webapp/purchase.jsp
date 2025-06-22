@@ -1,5 +1,21 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java"%>
 <%@ page import="java.util.Map, entity.Product"%>
+
+<%@ page import="entity.User"%>
+<%
+//ログインしているかを認証
+User user = (User) session.getAttribute("user");
+if (user == null) {
+%>
+<h2 style="color: red;">ログインしてください</h2>
+<p>
+	<a href="login.jsp">ログイン画面へ</a>
+</p>
+<%
+return;
+}
+%>
+
 <%
     Map<Product, Integer> cartProducts = (Map<Product, Integer>) session.getAttribute("cartProducts");
     int total = (int) request.getAttribute("total");

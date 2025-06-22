@@ -1,4 +1,17 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java"%>
+<%@ page import="entity.User"%>
+<%
+User user = (User) session.getAttribute("user");
+if (user == null || !user.isAdmin()) {
+%>
+<h2 style="color: red;">このページには管理者のみアクセスできます。</h2>
+<p>
+	<a href="login.jsp">ログイン画面へ</a>
+</p>
+<%
+return;
+}
+%>
 <!DOCTYPE html>
 <html>
 <head>

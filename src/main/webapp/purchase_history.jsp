@@ -2,6 +2,19 @@
 <%@ page import="java.util.*, java.time.format.DateTimeFormatter"%>
 <%@ page import="entity.*"%>
 <%@ page import="service.*"%>
+<%
+//ログインしているかを認証
+User user = (User) session.getAttribute("user");
+if (user == null) {
+%>
+<h2 style="color: red;">ログインしてください</h2>
+<p>
+	<a href="login.jsp">ログイン画面へ</a>
+</p>
+<%
+return;
+}
+%>
 
 <%
 // 購入履歴とサービスを取得

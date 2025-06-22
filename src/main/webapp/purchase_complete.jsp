@@ -1,5 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ page import="entity.User"%>
+
+<%
+//ログインしているかを認証
+User user = (User) session.getAttribute("user");
+if (user == null) {
+%>
+<h2 style="color: red;">ログインしてください</h2>
+<p>
+	<a href="login.jsp">ログイン画面へ</a>
+</p>
+<%
+return;
+}
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
