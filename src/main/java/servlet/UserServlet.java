@@ -49,19 +49,26 @@ public class UserServlet extends HttpServlet {
 
 	//ユーザーログイン処理
 	private void login(HttpServletRequest request, HttpServletResponse response, HttpSession session)
-			throws ServletException, IOException {
-		String user_id = request.getParameter("user_id");
-		String password = request.getParameter("password");
-		//↓↓↓ログイン認証↓↓↓
-		if (!userService.isExitingUser(user_id, password)) {
-			request.setAttribute("message", "パスワードまたはユーザーIDが間違っています");
-			request.getRequestDispatcher("/error.jsp").forward(request, response);
-		} else {
-			System.out.println("ログイン成功");
-			session.setAttribute("user", userService.getUserById(user_id));
-			request.getRequestDispatcher("/product_list").forward(request, response);
-		}
+	        throws ServletException, IOException {
+	    String user_id = request.getParameter("user_id");
+	    String password = request.getParameter("password");
+
+	    if (!userService.isExitingUser(user_id, password)) {
+	        request.setAttribute("message", "パスワードまたはユーザーIDが間違っています");
+	        request.getRequestDispatcher("/error.jsp").forward(request, response);
+	    } else {
+	        User loginUser = userService.getUserById(user_id);
+	        session.setAttribute("user", loginUser);
+	        if (loginUser.isAdmin()) {
+	            // 管理者なら管理者ホームへ
+	            request.getRequestDispatcher("/managerJSP/admin_home.jsp").forward(request, response);
+	        } else {
+	            // 一般ユーザーなら商品一覧へ
+	            request.getRequestDispatcher("/product_list").forward(request, response);
+	        }
+	    }
 	}
+
 
 	//ユーザー新規登録処理
 	private void registration(HttpServletRequest request, HttpServletResponse response)

@@ -7,6 +7,23 @@
 <meta charset="UTF-8">
 <title>カート内商品一覧</title>
 <style>
+
+.header {
+	width: 100%;
+	padding: 20px;
+	text-align: left;
+}
+
+.logo {
+	font-family: Impact, sans-serif;
+	font-size: 28px;
+	margin-left: 30px;
+}
+
+.logo span {
+	color: orange;
+}
+
 .product-container {
 	display: flex;
 	align-items: center;
@@ -64,6 +81,11 @@
 </style>
 </head>
 <body>
+<div class="header">
+	<div class="logo">
+		SUWA<span>ZON</span>
+	</div>
+</div>
 	<h2>カート内商品一覧</h2>
 
 	<%
@@ -108,16 +130,18 @@ for (Map.Entry<Product, Integer> entry : cartProducts.entrySet()) {
 		<div class="action-buttons">
 			<form action="product_detail.jsp" method="get">
 				<!-- 商品詳細 -->
-				<input type="hidden" name="product_id" value="<%=product.getProductId()%>" /> 
-				<input type="hidden" name="previous_page" value="cart_list">
-				<input type="submit" value="詳細" />
+				<input type="hidden" name="product_id"
+					value="<%=product.getProductId()%>" /> <input type="hidden"
+					name="previous_page" value="cart_list"> <input
+					type="submit" value="詳細" />
 			</form>
 
 			<form action="/Suwazon_zuichan/cart" method="post">
 				<!-- 商品削除 -->
-				<input type="hidden" name="product_id" value="<%=product.getProductId()%>" /> 
-				<input type="hidden" name="action" value="delete"> 
-				<input type="submit" value="削除" />
+				<input type="hidden" name="product_id"
+					value="<%=product.getProductId()%>" /> <input type="hidden"
+					name="action" value="delete"> <input type="submit"
+					value="削除" />
 			</form>
 
 			<span class="quantity">×<%=quantity%></span>
@@ -132,8 +156,8 @@ for (Map.Entry<Product, Integer> entry : cartProducts.entrySet()) {
 
 <form action="/Suwazon_zuichan/cart" method="post">
 	<!-- 購入 -->
-	<input type="hidden" name="action" value="purchase"> 
-	<input type="submit" class="purchase-button" value="購入する" />
+	<input type="hidden" name="action" value="purchase"> <input
+		type="submit" class="purchase-button" value="購入する" />
 </form>
 </body>
 </html>

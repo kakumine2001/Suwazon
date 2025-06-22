@@ -89,12 +89,12 @@ public final class UserDAO extends CommonDAO {
 	}
 
 	//DELETE処理
-	public int exeDelete(int user_id) {
+	public int exeDelete(String user_id) {
 		String sql = "DELETE FROM users WHERE user_id = ?;";
 		int result = 0;
 		try (Connection conn = createConnection(); //try with resources
 				PreparedStatement stmt = conn.prepareStatement(sql)) {
-			stmt.setInt(1, user_id);
+			stmt.setString(1, user_id);
 			result = stmt.executeUpdate();
 		} catch (SQLException ex) {
 			ex.printStackTrace();

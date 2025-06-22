@@ -28,6 +28,22 @@ body {
 	text-align: center;
 }
 
+.header {
+	width: 100%;
+	padding: 20px;
+	text-align: left;
+}
+
+.logo {
+	font-family: Impact, sans-serif;
+	font-size: 28px;
+	margin-left: 30px;
+}
+
+.logo span {
+	color: orange;
+}
+
 .history-box {
 	border: 1px solid black;
 	margin: 20px auto;
@@ -52,6 +68,11 @@ body {
 </style>
 </head>
 <body>
+	<div class="header">
+		<div class="logo">
+			SUWA<span>ZON</span>
+		</div>
+	</div>
 	<h2>購入履歴一覧</h2>
 
 	<%
@@ -60,13 +81,14 @@ body {
 		List<PurchaseHistory> list = entry.getValue();
 	%>
 	<div class="history-box">
-		<div>  <!-- 日付 -->
+		<div>
+			<!-- 日付 -->
 			<strong><%=date%></strong>
 		</div>
 		<hr>
 		<%
 		for (PurchaseHistory ph : list) { //日付ごとの購入履歴を表示
-			Product p = productService.getProductById(ph.getPruductId()); 
+			Product p = productService.getProductById(ph.getPruductId());
 			Category c = categoryService.getCategoryById(p.getCategoryId());
 		%>
 		<div class="item-row">
@@ -74,7 +96,7 @@ body {
 				×<%=ph.getNumber()%></div>
 			<div><%=c.getCategoryName()%></div>
 			<div>
-			<!-- 詳細画面、未実装 -->
+				<!-- 詳細画面、未実装 -->
 				<form action="" method="GET">
 					<input type="submit" value="詳細">
 				</form>

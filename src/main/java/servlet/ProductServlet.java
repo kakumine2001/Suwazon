@@ -48,7 +48,7 @@ public class ProductServlet extends HttpServlet {
 					products = productService.searchProductsByKeywordAndCategory(keyword, categoryId);
 				}
 			}
-			request.setAttribute("isSearched", isSearch); //検索が行われたflag変数
+			request.setAttribute("isSearched", isSearch); //isSearch検索が行われたflag変数
 			request.setAttribute("products", products);
 			request.getRequestDispatcher("/product_list.jsp").forward(request, response);
 		}

@@ -42,7 +42,7 @@ public final class UserService {
 	}
 
 	//ユーザー削除
-	public int deleteUserById(int id) {
+	public int deleteUserById(String id) {
 		return dao.exeDelete(id);
 	}
 
