@@ -21,7 +21,7 @@ public final class ProductService {
 
     // 商品をIDで取得する
     public Product getProductById(int id) {
-        return dao.exeSelect(id);
+        return dao.exeSelectById(id);
     }
 
     // 全商品を取得する
@@ -53,6 +53,15 @@ public final class ProductService {
     public int updateStock(int id, int stock) {
         return dao.exeUpdateStock(id, stock);
     }
+    
+    //購入による在庫数減少
+    public int updataStockByPurchase(int id,int quantity) {
+    	if(getProductById(id).getStock() - quantity < 0) {
+    		quantity = 0;
+    	}
+        return dao.exeUpdateStock(id, quantity);
+    }
+    
     
     //検索ワードとカテゴリーidで商品検索
     public List<Product> searchProductsByKeywordAndCategory(String keyword,int categoryId) {

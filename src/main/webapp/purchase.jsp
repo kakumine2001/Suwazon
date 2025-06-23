@@ -17,8 +17,8 @@ return;
 %>
 
 <%
-    Map<Product, Integer> cartProducts = (Map<Product, Integer>) session.getAttribute("cartProducts");
-    int total = (int) request.getAttribute("total");
+Map<Product, Integer> cartProducts = (Map<Product, Integer>) session.getAttribute("cartProducts");
+int total = (int) request.getAttribute("total");
 %>
 <!DOCTYPE html>
 <html>
@@ -124,17 +124,16 @@ a {
 		<h2>カート内商品一覧</h2>
 
 		<%
-        if (cartProducts != null) {
-            for (Map.Entry<Product, Integer> entry : cartProducts.entrySet()) {
-                Product product = entry.getKey();
-                int quantity = entry.getValue();
-                int subtotal = product.getPrice() * quantity;
-    %>
+		if (cartProducts != null) {
+			for (Map.Entry<Product, Integer> entry : cartProducts.entrySet()) {
+				Product product = entry.getKey();
+				int quantity = entry.getValue();
+				int subtotal = product.getPrice() * quantity;
+		%>
 		<div class="product-container">
-			<!-- 画像表示(未実装) -->
-			<!--  <img src="<%= product.getImage_directory() %>" alt="画像" width="80" height="80"> -->
 			<div class="product-image">
-				<span>画像</span>
+				<img src="<%=product.getImageDirectory()%>" alt="画像" width="80"
+					height="80">
 			</div>
 			<div class="product-name"><%=product.getProductName()%></div>
 			<div class="product-qty">

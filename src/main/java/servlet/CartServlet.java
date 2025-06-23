@@ -1,7 +1,10 @@
 package servlet;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Stream;
 
@@ -73,8 +76,8 @@ public class CartServlet extends HttpServlet {
 			throws IOException, ServletException {
 
 		//送られてきたIDで商品entityを取得
-		int product_id = Integer.parseInt(request.getParameter("product_id"));
-		Product product = productService.getProductById(product_id);
+		int productId = Integer.parseInt(request.getParameter("product_id"));
+		Product product = productService.getProductById(productId);
 
 		//Mapに商品とその数を保存する
 		cartProducts.put(product, cartProducts.getOrDefault(product, 0) + 1);
@@ -96,18 +99,23 @@ public class CartServlet extends HttpServlet {
 	//購入確定
 	private void purchaseComplete(HttpServletRequest request, HttpServletResponse response, HttpSession session) 
 			throws IOException, ServletException{
-	    String user_id = ((User)session.getAttribute("user")).getUserId();
+	    String userId = ((User)session.getAttribute("user")).getUserId();
 	    int result = 0;
 	    
 	    for (Map.Entry<Product, Integer> entry : cartProducts.entrySet()) {
 	        int r = purchaseHistoryService.purchaseComplete(
 	            entry.getKey().getProductId(),
-	            user_id,
+	            userId,
+	            LocalDate.now(),
 	            entry.getValue()
 	        );
 	        result += r;
 	    }
 	    if(result == cartProducts.size()) {
+	    	cartProducts.entrySet()
+	    	.stream()
+	    	.forEach(entry -> productService.updataStockByPurchase(entry.getKey().getProductId(), entry.getKey().getStock() - entry.getValue()));
+	    	cartProducts.clear();
 	    	request.getRequestDispatcher("/purchase_complete.jsp").forward(request, response);
 	    }
 	}
@@ -117,23 +125,32 @@ public class CartServlet extends HttpServlet {
 			throws IOException, ServletException{
 		
 		//削除したい商品のid
-		int product_id = Integer.parseInt(request.getParameter("product_id"));
+		int productId = Integer.parseInt(request.getParameter("product_id"));
 		
+		
+		//
+		List<Product> deleteProducts = new ArrayList<>();
 		//Mapから該当商品を削除、
 		for(Map.Entry<Product,Integer> map : cartProducts.entrySet()) {
 			Product p = map.getKey();
 			int quantity = map.getValue();
 			
-			if(p.getProductId() == product_id) {
+			if(p.getProductId() == productId) {
 				if(quantity == 1) {
-					cartProducts.remove(p);
+					deleteProducts.add(p);
 				}else {
 					cartProducts.put(p,quantity - 1);
 				}
 				System.out.println("削除成功");
 			}
 		}
-		request.setAttribute("deleteMessage", "商品を削除しました" + productService.getProductById(product_id).getProductName());
+		if(!deleteProducts.isEmpty()) {
+			for(Product p : deleteProducts) {
+				cartProducts.remove(p);
+			}
+			
+		}
+		request.setAttribute("deleteMessage", "商品を削除しました" + productService.getProductById(productId).getProductName());
 		doGet(request, response);
 	}
 	

@@ -40,6 +40,7 @@ public class UserManagementServlet extends HttpServlet {
 				break;
 			case "register":
 				userRegister(request, response);
+				break;
 			case "delete":
 				deleteUser(request, response);
 				break;

@@ -119,43 +119,43 @@ input[type="submit"] {
 		%>
 		<%
 		String userId = (String) request.getParameter("userId");
-		User user = UserService.getInstance().getUserById(userId);
+		User targetUser = UserService.getInstance().getUserById(userId);
 		%>
 		<form action="/Suwazon_zuichan/userManagement" method="POST">
 			<div class="form-group">
 				<div class="form-label">ユーザーID</div>
 				<input class="form-input" type="text" name="userId"
-					value="<%=user.getUserId()%>" readonly>
+					value="<%=targetUser.getUserId()%>" readonly>
 			</div>
 			<div class="form-group">
 				<div class="form-label">ユーザー名</div>
 				<input class="form-input" type="text" name="userName"
-					value="<%=user.getUserName()%>" required>
+					value="<%=targetUser.getUserName()%>" required>
 			</div>
 			<div class="form-group">
 				<div class="form-label">性別</div>
 				<select class="form-select" name="gender">
 					<option value="男"
-						<%="男".equals(user.getGender()) ? "selected" : ""%>>男</option>
+						<%="男".equals(targetUser.getGender()) ? "selected" : ""%>>男</option>
 					<option value="女"
-						<%="女".equals(user.getGender()) ? "selected" : ""%>>女</option>
+						<%="女".equals(targetUser.getGender()) ? "selected" : ""%>>女</option>
 				</select>
 			</div>
 			<div class="form-group">
 				<div class="form-label">年齢</div>
 				<input class="form-input" type="number" name="age"
-					value="<%=user.getAge()%>" min="0" required>
+					value="<%=targetUser.getAge()%>" min="0" required>
 			</div>
 			<div class="form-group">
 				<div class="form-label">パスワード</div>
 				<input class="form-input" type="text" name="password"
-					value="<%=user.getPassword()%>" required>
+					value="<%=targetUser.getPassword()%>" required>
 			</div>
 			<div class="form-group">
 				<div class="form-label">権限</div>
 				<select class="form-select" name="isAdmin">
-					<option value="false" <%=!user.isAdmin() ? "selected" : ""%>>一般ユーザー</option>
-					<option value="true" <%=user.isAdmin() ? "selected" : ""%>>管理者</option>
+					<option value="false" <%=!targetUser.isAdmin() ? "selected" : ""%>>一般ユーザー</option>
+					<option value="true" <%=targetUser.isAdmin() ? "selected" : ""%>>管理者</option>
 				</select>
 			</div>
 			<div class="button-container">

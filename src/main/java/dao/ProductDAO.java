@@ -121,7 +121,12 @@ public final  class ProductDAO extends CommonDAO {
     }
     
     // SELECT by ID
-    public Product exeSelect(int productId) {
+	public Product exeSelect(int productId) {
+		return exeSelectById(productId);
+	}
+
+	// SELECT by ID
+    public Product exeSelectById(int productId) {
         String sql = "SELECT * FROM products WHERE product_id = ?;";
         Product p = null;
         try (Connection conn = createConnection();

@@ -135,10 +135,14 @@ for (Map.Entry<Product, Integer> entry : cartProducts.entrySet()) {
 	int quantity = entry.getValue();
 %>
 <div class="product-container">
-	<div class="product-image">画像</div>
+	<div class="product-image">
+		<img alt="商品画像" src="<%=product.getImageDirectory() %>" width=100px height=100px>
+	</div>
 	<div class="product-details">
+
 		<div class="product-name"><%=product.getProductName()%></div>
 		<div><%=categoryService.getCategoryById(product.getCategoryId()).getCategoryName()%></div>
+
 		<div><%=product.getPrice()%>円
 		</div>
 		<div class="action-buttons">

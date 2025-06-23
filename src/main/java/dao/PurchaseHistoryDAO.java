@@ -24,7 +24,7 @@ public final class PurchaseHistoryDAO extends CommonDAO {
 
 	// 全件取得
 	public List<PurchaseHistory> exeSelectAll() {
-		String sql = "SELECT * FROM purchase_histories ORDER BY user_id, pruduct_id;";
+		String sql = "SELECT * FROM purchase_histories ORDER BY user_id, product_id;";
 		List<PurchaseHistory> historyList = new ArrayList<>();
 
 		try (Connection conn = createConnection();
@@ -47,10 +47,10 @@ public final class PurchaseHistoryDAO extends CommonDAO {
 		return historyList;
 	}
 
-	// 全件取得
+	// ユーザーの購入履歴を全件取得
 	public List<PurchaseHistory> exeSelectByUserid(String user_id) {
 		String sql = "SELECT * FROM purchase_histories "
-				+ "Where user_id = ? ORDER BY user_id, pruduct_id;";
+				+ "Where user_id = ? ORDER BY user_id, product_id;";
 
 		List<PurchaseHistory> historyList = new ArrayList<>();
 
@@ -73,6 +73,36 @@ public final class PurchaseHistoryDAO extends CommonDAO {
 		return historyList;
 	}
 
+
+	//ユーザーidと商品idと日付で検索
+	public PurchaseHistory exeSelectByUserIdAndProductIdAndDate(String userId,int productId,LocalDate date) {
+		String sql = "SELECT * FROM purchase_histories "
+				+ "Where user_id = ? AND product_id = ? AND purchased_at = ?;";
+
+		PurchaseHistory ph = null;
+
+		try (Connection conn = createConnection();
+				PreparedStatement stmt = conn.prepareStatement(sql)) {
+			stmt.setString(1, userId);
+			stmt.setInt(2, productId);
+			stmt.setDate(3, java.sql.Date.valueOf(date));
+			ResultSet rs = stmt.executeQuery();
+			if(rs.next()) {
+				ph = new PurchaseHistory();
+				ph.setUserId(rs.getString(1));
+				ph.setPruductId(rs.getInt(2));
+				ph.setDate(rs.getDate(3).toLocalDate());
+				ph.setNumber(rs.getInt(4));
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			System.out.println(ex.getMessage() + "\n" + ex);
+		}
+		return ph;
+	}
+	
+	
+	//購入履歴を新規登録,日付は購入処理が行われた日になる
 	public int exeInsert(int product_id, String user_id, int quantity) {
 		String sql = "INSERT INTO purchase_histories VALUES (?,?,?,?);";
 		int result = 0;
@@ -90,4 +120,28 @@ public final class PurchaseHistoryDAO extends CommonDAO {
 		return result;
 	}
 
+	
+	//同じユーザーと同じ商品、同じ日付のレコードが存在する場合、数字だけ変更
+	public int updatePurchaseHistory(int quantity,String userId,int productId) {
+		return updatePurchaseHistoryNumber(quantity, userId, productId);
+	}
+
+	//同じユーザーと同じ商品、同じ日付のレコードが存在する場合、数字だけ変更
+	public int updatePurchaseHistoryNumber(int quantity,String userId,int productId) {
+		String sql = "UPDATE purchase_histories SET number = ?"
+				+ " WHERE user_id = ? AND product_id = ?;";
+		int result = 0;
+		try (Connection conn = createConnection();
+				PreparedStatement stmt = conn.prepareStatement(sql)) {
+			stmt.setInt(1, quantity);
+			stmt.setString(2,userId);
+			stmt.setInt(3,productId);
+			result = stmt.executeUpdate();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+			System.out.println(ex.getMessage() + "\n" + ex);
+		}
+		System.out.println(result);
+		return result;
+	}
 }

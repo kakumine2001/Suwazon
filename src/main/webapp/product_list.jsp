@@ -209,14 +209,13 @@ h1 {
 			<div class="card">
 				<!-- 画像表示 -->
 				<div class="image-placeholder">
-					<img alt="商品画像" src="images/<%=p.getImageDirectory() %>" width=200px height=100px>
+					<img alt="商品画像" src="<%=p.getImageDirectory() %>" width=200px height=100px>
 				</div>
 				<div class="product-name"><%=p.getProductName()%><br>
 					<!-- ↓サービスクラスでカテゴリを取得し、名前を出力↓ -->
 					<span style="font-size: 12px;"><%=categoryService.getCategoryById(p.getCategoryId()).getCategoryName()%></span>
 				</div>
-				<div class="price"><%=p.getPrice()%>円
-				</div>
+				<div class="price"><%=p.getPrice()%>円</div>
 				<%
 				if (p.getStock() > 0) {
 				%>

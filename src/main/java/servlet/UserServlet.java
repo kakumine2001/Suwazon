@@ -50,14 +50,14 @@ public class UserServlet extends HttpServlet {
 	//ユーザーログイン処理
 	private void login(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 	        throws ServletException, IOException {
-	    String user_id = request.getParameter("user_id");
+	    String userId = request.getParameter("user_id");
 	    String password = request.getParameter("password");
 
-	    if (!userService.isExitingUser(user_id, password)) {
+	    if (!userService.isExitingUser(userId, password)) {
 	        request.setAttribute("message", "パスワードまたはユーザーIDが間違っています");
 	        request.getRequestDispatcher("/error.jsp").forward(request, response);
 	    } else {
-	        User loginUser = userService.getUserById(user_id);
+	        User loginUser = userService.getUserById(userId);
 	        session.setAttribute("user", loginUser);
 	        if (loginUser.isAdmin()) {
 	            // 管理者なら管理者ホームへ
@@ -73,12 +73,12 @@ public class UserServlet extends HttpServlet {
 	//ユーザー新規登録処理
 	private void registration(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String user_id = request.getParameter("user_id");
-		String user_name = request.getParameter("user_name");
+		String userId = request.getParameter("user_id");
+		String userName = request.getParameter("user_name");
 		String password = request.getParameter("password");
 		int age = Integer.parseInt(request.getParameter("age"));
 		String gender = request.getParameter("gender");
-		User newUser = new User(user_id, user_name, age, gender, password, false);
+		User newUser = new User(userId, userName, age, gender, password, false);
 		if (userService.userRegistration(newUser) == 0) {
 			request.setAttribute("message", "ユーザーがすでに存在いているか、入力が間違っています。");
 		} else {

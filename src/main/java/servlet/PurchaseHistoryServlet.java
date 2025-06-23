@@ -21,8 +21,8 @@ public class PurchaseHistoryServlet extends HttpServlet{
 			throws ServletException, IOException {
 		//セッションからuserIdを取得して、そのユーザーの購入履歴を取得
 		HttpSession session = request.getSession();
-		String user_id = ((User)session.getAttribute("user")).getUserId();
-		List<PurchaseHistory> phs = phService.getAllHistoriesByUserId(user_id);
+		String userId = ((User)session.getAttribute("user")).getUserId();
+		List<PurchaseHistory> phs = phService.getAllHistoriesByUserId(userId);
 		
 		//日付ごとに購入履歴を分ける
 		
